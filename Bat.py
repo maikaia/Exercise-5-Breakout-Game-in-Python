@@ -6,7 +6,7 @@ class Bat():
     def __init__(self, window, windowWidth, windowHeight):
         self.x = windowWidth / 2
         self.y = windowHeight - 30
-        self.color = (255, 0, 0)
+        self.color = (255, 255, 255)
         self.width = 150
         self.height = 20
         self.window = window

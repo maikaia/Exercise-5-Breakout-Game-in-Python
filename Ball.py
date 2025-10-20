@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from Bat import *  # Import Bat class
+from Brick import * # Import Brick class
 
 # Ball class
 class Ball():
@@ -32,7 +33,7 @@ class Ball():
         self.ySpeed = 4
 
     # Update ball position
-    def update(self, bat):
+    def update(self, bat, brick, WINDOW_HEIGHT, WINDOW_WIDTH):
         # Bounce ball off side walls
         if(self.x < 0) or (self.x >= self.maxWidth):
             self.xSpeed = -self.xSpeed
@@ -46,6 +47,11 @@ class Ball():
             pygame.time.delay(1000)
             self.x = self.maxWidth/2
             self.y = self.maxHeight/2
+
+        # # Bounce ball off bricks
+        # if(self.y - self.height >= brick.y) and (brick.x <= self.x + self.width/2 <= brick.x + brick.width):
+        #     self.ySpeed = -self.ySpeed
+        #     brick.hit()
 
         # Update ball position
         self.x = self.x + self.xSpeed

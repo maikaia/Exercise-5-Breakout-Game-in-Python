@@ -3,13 +3,13 @@ from pygame.locals import *
 import sys
 from Ball import * # Import Ball class
 from Bat import * # Import Bat class
+from Brick import * #Import Brick class
 
 # Constants
 BLACK = (0, 0, 0)
 WINDOW_WIDTH = 840
 WINDOW_HEIGHT = 680
 FRAMES_PER_SECOND = 60
-RED = (255, 0, 0)
 
 # Initialize Pygame
 pygame.init()
@@ -20,6 +20,7 @@ clock = pygame.time.Clock()
 # Create Ball instance
 ball = Ball(window, WINDOW_WIDTH, WINDOW_HEIGHT)
 bat = Bat(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+brick = Brick(window)
 
 # Main game loop
 while True:
@@ -30,7 +31,7 @@ while True:
             sys.exit()
     
     # Update game state
-    ball.update(bat)
+    ball.update(bat, brick, WINDOW_HEIGHT, WINDOW_WIDTH)
     bat.update()
 
     # Draw everything
@@ -39,6 +40,11 @@ while True:
     # Draw ball and bat
     ball.draw()
     bat.draw()
+
+    # Draw bricks
+    for x in range(10, WINDOW_WIDTH, brick.width + 10):
+        for y in range(50, 100, brick.height + 10):
+            brick.draw(x, y)
 
     # Update display and tick clock
     pygame.display.update()
