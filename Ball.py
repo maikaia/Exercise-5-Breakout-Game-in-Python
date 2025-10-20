@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import random
+from Bat import *  # Import Bat class
 
 # Ball class
 class Ball():
@@ -32,13 +32,20 @@ class Ball():
         self.ySpeed = 4
 
     # Update ball position
-    def update(self):
-        # Bounce ball off walls
+    def update(self, bat):
+        # Bounce ball off side walls
         if(self.x < 0) or (self.x >= self.maxWidth):
             self.xSpeed = -self.xSpeed
 
-        if(self.y < 0) or (self.y >= self.maxHeight):
+        # Bounce ball off bat or top wall
+        if(self.y + self.height >= bat.y) and (bat.x <= self.x + self.width/2 <= bat.x + bat.width) or (self.y < 0):
             self.ySpeed = -self.ySpeed
+
+        # Resets ball if it goes below the window
+        if(self.y > self.maxHeight+self.height):
+            pygame.time.delay(1000)
+            self.x = self.maxWidth/2
+            self.y = self.maxHeight/2
 
         # Update ball position
         self.x = self.x + self.xSpeed

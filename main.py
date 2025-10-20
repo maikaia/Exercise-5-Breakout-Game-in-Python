@@ -1,13 +1,15 @@
 import pygame
 from pygame.locals import *
 import sys
-from Ball import * # import Ball class
+from Ball import * # Import Ball class
+from Bat import * # Import Bat class
 
 # Constants
 BLACK = (0, 0, 0)
 WINDOW_WIDTH = 840
 WINDOW_HEIGHT = 680
 FRAMES_PER_SECOND = 60
+RED = (255, 0, 0)
 
 # Initialize Pygame
 pygame.init()
@@ -17,6 +19,7 @@ clock = pygame.time.Clock()
 
 # Create Ball instance
 ball = Ball(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+bat = Bat(window, WINDOW_WIDTH, WINDOW_HEIGHT)
 
 # Main game loop
 while True:
@@ -27,13 +30,15 @@ while True:
             sys.exit()
     
     # Update game state
-    ball.update()
+    ball.update(bat)
+    bat.update()
 
     # Draw everything
     window.fill(BLACK)
 
-    # Draw ball
+    # Draw ball and bat
     ball.draw()
+    bat.draw()
 
     # Update display and tick clock
     pygame.display.update()
