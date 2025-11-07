@@ -4,6 +4,7 @@ import sys
 from Ball import * # Import Ball class
 from Bat import * # Import Bat class
 from Brick import * #Import Brick class
+from random import randint
 
 # Constants
 BLACK = (0, 0, 0)
@@ -20,7 +21,13 @@ clock = pygame.time.Clock()
 # Create Ball instance
 ball = Ball(window, WINDOW_WIDTH, WINDOW_HEIGHT)
 bat = Bat(window, WINDOW_WIDTH, WINDOW_HEIGHT)
-brick = Brick(window)
+
+# Create a list of bricks
+bricks = []
+for x in range(10, WINDOW_WIDTH - 100, 110):
+    for y in range(50, 150, 30):
+        lives = randint(1, 3)  # Random lives between 1 and 3
+        bricks.append(Brick(window, x, y, lives))
 
 # Main game loop
 while True:
@@ -31,20 +38,15 @@ while True:
             sys.exit()
     
     # Update game state
-    ball.update(bat, brick, WINDOW_HEIGHT, WINDOW_WIDTH)
     bat.update()
+    ball.update(bat, bricks)
 
     # Draw everything
     window.fill(BLACK)
-
-    # Draw ball and bat
     ball.draw()
     bat.draw()
-
-    # Draw bricks
-    for x in range(10, WINDOW_WIDTH, brick.width + 10):
-        for y in range(50, 100, brick.height + 10):
-            brick.draw(x, y)
+    for brick in bricks:
+        brick.draw()
 
     # Update display and tick clock
     pygame.display.update()

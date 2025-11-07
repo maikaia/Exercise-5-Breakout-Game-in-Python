@@ -1,7 +1,5 @@
 import pygame
 from pygame.locals import *
-from Bat import *  # Import Bat class
-from Brick import * # Import Brick class
 
 # Ball class
 class Ball():
@@ -32,26 +30,43 @@ class Ball():
         self.xSpeed = 4
         self.ySpeed = 4
 
+    def get_rect(self):
+        return pygame.Rect(self.x, self.y, self.width, self.height)
+
     # Update ball position
-    def update(self, bat, brick, WINDOW_HEIGHT, WINDOW_WIDTH):
+    def update(self, bat, bricks):
         # Bounce ball off side walls
-        if(self.x < 0) or (self.x >= self.maxWidth):
+        if self.x < 0 or self.x >= self.maxWidth:
             self.xSpeed = -self.xSpeed
 
         # Bounce ball off bat or top wall
         if(self.y + self.height >= bat.y) and (bat.x <= self.x + self.width/2 <= bat.x + bat.width) or (self.y < 0):
             self.ySpeed = -self.ySpeed
 
-        # Resets ball if it goes below the window
-        if(self.y > self.maxHeight+self.height):
+        # Resets ball if it goes below screen
+        if self.y > self.maxHeight+self.height:
             pygame.time.delay(1000)
             self.x = self.maxWidth/2
             self.y = self.maxHeight/2
 
-        # # Bounce ball off bricks
-        # if(self.y - self.height >= brick.y) and (brick.x <= self.x + self.width/2 <= brick.x + brick.width):
-        #     self.ySpeed = -self.ySpeed
-        #     brick.hit()
+        # Bounce ball off bricks
+        ball_rect = self.get_rect()
+        for brick in bricks:
+            if brick.alive:
+                brick_rect = pygame.Rect(brick.x, brick.y, brick.width, brick.height)
+                if ball_rect.colliderect(brick_rect):
+                    # Determine bounce direction
+                    if abs(brick_rect.top - ball_rect.bottom) < 10 and self.ySpeed > 0:
+                        self.ySpeed = -self.ySpeed  # Hit top of brick
+                    elif abs(brick_rect.bottom - ball_rect.top) < 10 and self.ySpeed < 0:
+                        self.ySpeed = -self.ySpeed  # Hit bottom of brick
+                    elif abs(brick_rect.left - ball_rect.right) < 10 and self.xSpeed > 0:
+                        self.xSpeed = -self.xSpeed  # Hit left side
+                    elif abs(brick_rect.right - ball_rect.left) < 10 and self.xSpeed < 0:
+                        self.xSpeed = -self.xSpeed  # Hit right side
+
+                    brick.hit()
+                    break  # Stop after one collision
 
         # Update ball position
         self.x = self.x + self.xSpeed
