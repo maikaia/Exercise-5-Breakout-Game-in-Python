@@ -8,9 +8,9 @@ from random import randint
 
 # Constants
 BLACK = (0, 0, 0)
-WINDOW_WIDTH = 840
+WINDOW_WIDTH = 890
 WINDOW_HEIGHT = 680
-FRAMES_PER_SECOND = 120
+FRAMES_PER_SECOND = 60
 PAUSE = True
 GAMEOVER = False
 
