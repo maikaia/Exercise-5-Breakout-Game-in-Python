@@ -1,35 +1,25 @@
 import pygame
 from pygame.locals import *
+from Sprite import Sprite
 
 # Ball class
-class Ball():
+class Ball(Sprite):
     # Initialize ball
     def __init__(self, window, windowWidth, windowHeight):
-        # Set window and dimensions
-        self.window = window
-        self.windowWidth = windowWidth 
-        self.windowHeight= windowHeight
-
         # Load ball image
         self.image = pygame.image.load('images/ball.png').convert_alpha()
-
-        # Get ball dimensions
         ballRect = self.image.get_rect()
-        self.width = ballRect.width
-        self.height = ballRect.height
 
-        # Set max positions
+        # Call Sprite's __init__ to set x, y, width, height
+        super().__init__(window, windowWidth/2, windowHeight/2, ballRect.width, ballRect.height)
+
+        # Variables
+        self.windowWidth = windowWidth 
+        self.windowHeight = windowHeight
         self.maxWidth = windowWidth - self.width
         self.maxHeight = windowHeight - self.height
-
-        # Start ball in center of window
-        self.x = self.maxWidth/2
-        self.y = self.maxHeight/2
-
-        # Set ball speed
         self.xSpeed = 4
         self.ySpeed = 4
-
         self.lives = 3
         self.score = 0
 

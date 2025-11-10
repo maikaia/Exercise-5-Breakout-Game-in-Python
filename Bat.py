@@ -1,18 +1,23 @@
 import pygame
 from pygame.locals import *
+from Sprite import Sprite
 
-# Bat class
-class Bat():
+class Bat(Sprite):
     def __init__(self, window, windowWidth, windowHeight):
-        self.x = windowWidth / 2
-        self.y = windowHeight - 30
-        self.color = (255, 255, 255)
-        self.width = 150
-        self.height = 20
-        self.window = window
+        # Define bat’s size and starting position
+        self.width = 100
+        self.height = 10
+        self.x = (windowWidth - self.width) / 2
+        self.y = windowHeight - 50
+        self.windowWidth = windowWidth
+        self.windowHeight = windowHeight
+        self.speed = 6
+
+        # Call Sprite superclass to initialize shared attributes
+        super().__init__(window, self.x, self.y, self.width, self.height)
 
     def draw(self):
-        pygame.draw.rect(self.window, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        pygame.draw.rect(self.window, (255, 255, 255), (self.x, self.y, self.width, self.height))
 
     def move_left(self, distance):
         self.x = max(0, self.x - distance)

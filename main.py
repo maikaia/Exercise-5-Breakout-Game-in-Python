@@ -52,6 +52,9 @@ while True:
     if ball.lives <= 0:
         GAMEOVER = True
 
+    if all(not brick.alive for brick in bricks):
+        GAMEOVER = True
+
     if GAMEOVER:
         window.fill(BLACK)
         draw_text("GAME OVER", pygame.font.SysFont(None, 75), (255, 0, 0), window, WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 50)
