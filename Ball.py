@@ -30,6 +30,9 @@ class Ball():
         self.xSpeed = 4
         self.ySpeed = 4
 
+        self.lives = 3
+        self.score = 0
+
     def get_rect(self):
         return pygame.Rect(self.x, self.y, self.width, self.height)
 
@@ -44,10 +47,11 @@ class Ball():
             self.ySpeed = -self.ySpeed
 
         # Resets ball if it goes below screen
-        if self.y > self.maxHeight+self.height:
+        if self.y > self.maxHeight + self.height:
             pygame.time.delay(1000)
             self.x = self.maxWidth/2
             self.y = self.maxHeight/2
+            self.lives -= 1
 
         # Bounce ball off bricks
         ball_rect = self.get_rect()
@@ -66,6 +70,7 @@ class Ball():
                         self.xSpeed = -self.xSpeed  # Hit right side
 
                     brick.hit()
+                    self.score += 10 + 10 * brick.lives # 10 points for yellow, 20 for orange, 30 for red
                     break  # Stop after one collision
 
         # Update ball position
